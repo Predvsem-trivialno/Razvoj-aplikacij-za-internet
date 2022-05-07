@@ -14,7 +14,7 @@ router.get('/logout', userController.logout);
  * POST
  */
 router.post('/', userController.create);
-
+router.post('/login', userController.login);
 /*
  * PUT
  */

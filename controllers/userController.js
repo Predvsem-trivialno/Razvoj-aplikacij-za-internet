@@ -136,9 +136,9 @@ module.exports = {
                err.status = 401;
                return next(err);
            } else{
-               req.session.userId = user._id;
-               req.session.username = user.username;
-               return res.redirect('profile');
+                req.session.userId = user._id;
+                req.session.userName = user.username;
+                return res.redirect('/');
            }
         });
     },
