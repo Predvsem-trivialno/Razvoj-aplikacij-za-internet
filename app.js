@@ -7,11 +7,25 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var userRouter = require('./routes/userRoutes');
 
+var mongoose = require('mongoose');
+var mongoDB = 'mongodb://127.0.0.1/projekt';
+mongoose.connect(mongoDB);
+mongoose.Promise = global.Promise;
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'MongoDB connection error'));
+
 var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
+
+var session = require('express-session');
+app.use(session({
+  secret: 'work hard',
+  resave: true,
+  saveUninitialized: false,
+}));
 
 app.use(logger('dev'));
 app.use(express.json());

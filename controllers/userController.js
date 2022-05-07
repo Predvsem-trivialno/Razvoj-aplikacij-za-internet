@@ -51,6 +51,7 @@ module.exports = {
      * userController.create()
      */
     create: function (req, res) {
+        if(req.body.password == req.body.repeatpassword) {
         var user = new UserModel({
 			username : req.body.username,
 			email : req.body.email,
@@ -65,8 +66,12 @@ module.exports = {
                 });
             }
 
-            return res.status(201).json(user);
+            return res.redirect('/');
         });
+    }
+    else {
+        return res.redirect('/');
+    }
     },
 
     /**
@@ -100,8 +105,8 @@ module.exports = {
                         error: err
                     });
                 }
-
-                return res.json(user);
+                return res.status(201).json(user)
+                //return res.json(user);
             });
         });
     },
@@ -122,6 +127,32 @@ module.exports = {
 
             return res.status(204).json();
         });
+    },
+
+    login: function(req, res, next){
+        UserModel.authenticate(req.body.username, req.body.password, function(error, user){
+           if(error || !user){
+               var err = new Error("Wrong username or password");
+               err.status = 401;
+               return next(err);
+           } else{
+               req.session.userId = user._id;
+               req.session.username = user.username;
+               return res.redirect('profile');
+           }
+        });
+    },
+
+    logout: function (req,res,next){
+        if(req.session){
+            req.session.destroy(function(err){
+                if(err){
+                    return next(err);
+                } else {
+                    return res.redirect('/');
+                }
+            });
+        }
     },
 
     showLogin: function (req, res) {
