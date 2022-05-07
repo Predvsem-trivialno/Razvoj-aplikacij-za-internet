@@ -4,7 +4,7 @@
   "description": "Spletna aplikacija za Pametni paketnik",
   "main": "index.js",
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "nodemon ./bin/www"
   },
   "repository": {
     "type": "git",
@@ -19,7 +19,8 @@
     "hbs": "^4.2.0",
     "http-errors": "~1.6.3",
     "mongoose": "^6.3.2",
-    "morgan": "~1.9.1"
+    "morgan": "~1.9.1",
+    "nodemon": "^2.0.16"
   },
   "keywords": [
     "paketnik"

@@ -6,11 +6,8 @@ var userController = require('../controllers/userController.js');
  * GET
  */
 router.get('/', userController.list);
-
-/*
- * GET
- */
-router.get('/:id', userController.show);
+router.get('/login', userController.showLogin);
+router.get('/register', userController.showRegister);
 
 /*
  * POST

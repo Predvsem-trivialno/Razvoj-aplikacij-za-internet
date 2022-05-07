@@ -122,5 +122,13 @@ module.exports = {
 
             return res.status(204).json();
         });
+    },
+
+    showLogin: function (req, res) {
+        res.render('user/login');
+    },
+
+    showRegister: function (req, res) {
+        res.render('user/register');
     }
 };
