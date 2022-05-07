@@ -1,0 +1,30 @@
+{
+  "name": "paketnikwebapp",
+  "version": "1.0.0",
+  "description": "Spletna aplikacija za Pametni paketnik",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./bin/www"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Predvsem-trivialno/Razvoj-aplikacij-za-internet.git"
+  },
+  "dependencies": {
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "express": "~4.16.1",
+    "hbs": "^4.2.0",
+    "http-errors": "~1.6.3",
+    "morgan": "~1.9.1"
+  },
+  "keywords": [
+    "paketnik"
+  ],
+  "author": "Nik Krajnc, Matej Posavec",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Predvsem-trivialno/Razvoj-aplikacij-za-internet/issues"
+  },
+  "homepage": "https://github.com/Predvsem-trivialno/Razvoj-aplikacij-za-internet#readme"
+}
