@@ -6,7 +6,7 @@
             <h1>{{title}}</h1>
             <p>Online webservice for managing your smart post boxes!</p>
             {{#if session.userId}}
-                <p>Logged in</p>
+                <p>Welcome {{session.userName}}!</p>
                 <a href="/postbox/addbox" class="btn btn-primary btn-lg btn-block">Add a post box</a>
                 <a href="/postbox/show" class="btn btn-primary btn-lg btn-block">Make an unlock request</a>
                 {{else}}

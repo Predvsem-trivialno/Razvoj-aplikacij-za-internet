@@ -1,31 +1,50 @@
  <div class="container h-100">
     <div class="row d-flex justify-content-center align-items-center h-200">
-      <div class="col-lg-12 col-xl-11">
+      <div class="col-lg-12 col-xl-12">
         <div class="card text-black" style="border-radius: 25px;">
           <div class="card-body p-md-5">
             <div class="row justify-content-center">
-              <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
-
-                <p class="text-center h2 fw-bold mb-5 mx-1 mx-md-10 mt-4">Registered post boxes</p>
-                {{#each postbox}}
-                    {{#if_equal ../session.userId ownerId}}
-                        <dix class="d-flex mb-8">
-                            <p>Box ID: {{postboxId}} Date added: {{dateAdded}}</p>
-                        </dix>
-                    {{/if_equal}}
-                {{/each}}
-
-                  <div class="d-flex flex-row align-items-center mb-4">
-                    <i class="fas fa-user fa-lg me-3 fa-fw"></i>
-                    <div class="form-outline flex-fill mb-0">
-                      <label class="form-label" for="form3Example1c"></label>
-                    </div>
-                  </div>
-
-                  <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-                   <!-- <button type="submit" style="background-color: #3b5998;" class="btn btn-primary btn-lg">Submit</button>-->
-                  </div>
+              {{#if_equal ../session.userId ownerId}}
+              <p class="text-center h2 fw-bold mb-5 mx-1 mx-md-10 mt-4">Your registered post boxes</p>
+                  <table class="table table-hover">
+                      <thead>
+                        <tr>
+                          <th>Box ID</th>
+                          <th>Name</th>
+                          <th>Location</th>
+                          <th>Added on</th>
+                          <th>Access log</th>
+                          <th>Edit</th>
+                          <th>Remove</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {{#each postbox}}
+                              <tr>
+                                <td>{{postboxId}}</td>
+                                <td>Name</td>
+                                <td>Location</td>
+                                <td>{{dateAdded}}</td>
+                                <td>
+                                  <a href='?controller=uporabniki&action=prikazi&id=<?php echo $uporabnik->id; ?>'>
+                                    <button type="button" class="btn btn-primary">
+                                      Pregled
+                                      <span class="translate-middle badge rounded-pill bg-danger">Nekaj</span>
+                                    </button>
+                                  </a>
+                                </td>
+                                <td>
+                                  <a href="/" class="btn btn-warning"> <i class="fas fa-plus"></i></a>
+                                </td>
+                                <td>
+                                  <a href="/" class="btn btn-danger" onclick="return confirm('Are you sure?')"> <i class="fas fa-minus"></i></a>
+                                </td>
+                              </tr>
+                      {{/each}}
+                      </tbody>
+                  </table>
               </div>
+              {{/if_equal}}
             </div>
           </div>
         </div>
