@@ -9,6 +9,7 @@
                   <table class="table table-hover">
                       <thead>
                         <tr>
+                          <th></th>
                           <th>Box ID</th>
                           <th>Name</th>
                           <th>Location</th>
@@ -21,15 +22,23 @@
                       <tbody>
                         {{#each postbox}}
                               <tr>
-                                <td>{{postboxId}}</td>
-                                <td>Name</td>
-                                <td>Location</td>
-                                <td>{{dateAdded}}</td>
                                 <td>
-                                  <a href='?controller=uporabniki&action=prikazi&id=<?php echo $uporabnik->id; ?>'>
+                                  <form method="post" action="/accesslog">
+                                    <input type="hidden" name="postboxId" value="{{postboxId}}"></input>
+                                    <input type="hidden" name="openedBy" value="{{../session.userId}}"></input>
+                                    <input type="hidden" name="success" value="1"></input>
+                                    <button type="submit" class="btn btn-success"><i class="fas fa-solid fa-box-open"></i></button>
+                                  </form>
+                                </td>
+                                <td>{{postboxId}}</td>
+                                <td>{{name}}</td>
+                                <td>{{location}}</td>
+                                <td>{{dateFormat dateAdded}}</td>
+                                <td>
+                                  <a href='/accesslog/{{postboxId}}'>
                                     <button type="button" class="btn btn-primary">
-                                      Pregled
-                                      <span class="translate-middle badge rounded-pill bg-danger">Nekaj</span>
+                                      Overview
+                                      <span class="translate-middle badge rounded-pill bg-danger">{{accessCount}}</span>
                                     </button>
                                   </a>
                                 </td>

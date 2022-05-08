@@ -7,6 +7,7 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var userRouter = require('./routes/userRoutes');
 var postboxRouter = require('./routes/postboxRoutes')
+var accesslogRouter = require('./routes/accesslogRoutes');
 
 var mongoose = require('mongoose');
 var mongoDB = 'mongodb+srv://root:root@cluster0.u3afm.mongodb.net/myFirstDatabase?retryWrites=true&w=majority';
@@ -22,6 +23,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 
 var hbs = require('hbs');
+var moment = require('moment');
 
 hbs.registerHelper('if_equal', function(a, b, opts) {
   if (a == b) {
@@ -30,8 +32,13 @@ hbs.registerHelper('if_equal', function(a, b, opts) {
       return opts.inverse(this)
   }
 })
+hbs.registerHelper('dateFormat', function (date, options) {
+  const formatToUse = (arguments[1] && arguments[1].hash && arguments[1].hash.format) || "DD. MM. YYYY (HH:mm)"
+  return moment(date).format(formatToUse);
+});
 
 var session = require('express-session');
+const req = require('express/lib/request');
 app.use(session({
   secret: 'work hard',
   resave: true,
@@ -52,6 +59,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/user', userRouter);
 app.use('/postbox', postboxRouter);
+app.use('/accesslog', accesslogRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

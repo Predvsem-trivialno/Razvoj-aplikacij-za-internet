@@ -16,6 +16,7 @@ router.get('/:id', postboxController.show);
  * POST
  */
 router.post('/', postboxController.create);
+router.post('/open', postboxController.open);
 
 /*
  * PUT

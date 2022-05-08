@@ -5,22 +5,12 @@ var accesslogController = require('../controllers/accesslogController.js');
 /*
  * GET
  */
-router.get('/', accesslogController.list);
-
-/*
- * GET
- */
-router.get('/:id', accesslogController.show);
+router.get('/:id', accesslogController.list);
 
 /*
  * POST
  */
 router.post('/', accesslogController.create);
-
-/*
- * PUT
- */
-router.put('/:id', accesslogController.update);
 
 /*
  * DELETE
