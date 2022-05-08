@@ -1,3 +1,4 @@
+const session = require('express-session');
 var UserModel = require('../models/userModel.js');
 
 /**
@@ -52,26 +53,27 @@ module.exports = {
      */
     create: function (req, res) {
         if(req.body.password == req.body.repeatpassword) {
-        var user = new UserModel({
-			username : req.body.username,
-			email : req.body.email,
-			password : req.body.password
-        });
+            var user = new UserModel({
+                username : req.body.username,
+                email : req.body.email,
+                password : req.body.password
+            });
 
-        user.save(function (err, user) {
-            if (err) {
-                return res.status(500).json({
-                    message: 'Error when creating user',
-                    error: err
-                });
-            }
-
-            return res.redirect('/');
-        });
-    }
-    else {
-        return res.redirect('/');
-    }
+            user.save(function (err, user) {
+                if (err) {
+                    return res.status(500).json({
+                        message: 'Error when creating user',
+                        error: err
+                    });
+                }
+                var warning = "Registration successful! Please log in.";
+                return res.render('user/login', { warning });
+            });
+        }
+        else {
+            var fail="Passwords did not match!";
+            return res.render('user/register', { fail, inputs: req.body });
+        }
     },
 
     /**
@@ -153,6 +155,39 @@ module.exports = {
                 }
             });
         }
+    },
+
+    sendEmail: function (req, res) {        //TODO
+        return res.redirect('/');
+    },
+
+    showSupport: function (req, res) {
+        console.log(req.session.userId);
+        if(req.session){
+            UserModel.findOne({_id: req.session.userId}, function (err, user) {
+                if (err) {
+                    return res.status(500).json({
+                        message: 'Error when getting user.',
+                        error: err
+                    });
+                }
+    
+                if (!user) {
+                    return res.status(404).json({
+                        message: 'No such user'
+                    });
+                }
+    
+                res.render('user/support', user);
+            });
+        } else {
+            res.render('user/support')
+        }
+
+    },
+
+    showProfile: function (req, res) {
+        res.render('user/profile');
     },
 
     showLogin: function (req, res) {

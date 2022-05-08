@@ -1,0 +1,38 @@
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-12 col-md-8 col-lg-6 col-xl-7">
+        <div class="card shadow-2-strong" style="border-radius: 1rem;">
+            <div class="card-body p-5 text-center">
+                <form class="mx-1 mx-md-4" action="/user/support" method="post">
+
+                    <div class="d-flex flex-row align-items-center mb-4">
+                        <div class="form-outline flex-fill mb-0">
+                            <label class="form-label" for="username">Your Name</label>
+                            <input type="text" id="username" name="username" class="form-control" value="{{username}}" readonly/>
+                        </div>
+                    </div>
+
+                    <div class="d-flex flex-row align-items-center mb-4">
+                        <div class="form-outline flex-fill mb-0">
+                            <label class="form-label" for="email">Your Email</label>
+                            <input type="email" id="email" name="email" class="form-control" value="{{email}}" readonly/>
+                        </div>
+                    </div>
+
+                    <div class="d-flex flex-row align-items-center mb-4 w-200">
+                        <div class="form-outline flex-fill mb-0">
+                            <label class="form-label" for="question">Your question</label>
+                            <textarea class="form-control" id="question" rows="8" minlength="25" maxlength="300" required></textarea>
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
+                        <button type="submit" style="background-color: #3b5998;" class="btn btn-primary btn-lg">Send</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>

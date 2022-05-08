@@ -27,7 +27,7 @@
                                     <input type="hidden" name="postboxId" value="{{postboxId}}"></input>
                                     <input type="hidden" name="openedBy" value="{{../session.userId}}"></input>
                                     <input type="hidden" name="success" value="1"></input>
-                                    <button type="submit" class="btn btn-success"><i class="fas fa-solid fa-box-open"></i></button>
+                                    <button type="submit" class="btn btn-success border-dark"><i class="fas fa-solid fa-box-open"></i></button>
                                   </form>
                                 </td>
                                 <td>{{postboxId}}</td>
@@ -36,17 +36,17 @@
                                 <td>{{dateFormat dateAdded}}</td>
                                 <td>
                                   <a href='/accesslog/{{postboxId}}'>
-                                    <button type="button" class="btn btn-primary">
+                                    <button type="button" class="btn btn-primary border-dark">
                                       Overview
                                       <span class="translate-middle badge rounded-pill bg-danger">{{accessCount}}</span>
                                     </button>
                                   </a>
                                 </td>
                                 <td>
-                                  <a href="/" class="btn btn-warning"> <i class="fas fa-plus"></i></a>
+                                  <a href="/" class="btn btn-warning border-dark"> <i class="fas fa-plus"></i></a>
                                 </td>
                                 <td>
-                                  <a href="/" class="btn btn-danger" onclick="return confirm('Are you sure?')"> <i class="fas fa-minus"></i></a>
+                                  <a href="/" class="btn btn-danger border-dark" onclick="return confirm('Are you sure?')"> <i class="fas fa-minus"></i></a>
                                 </td>
                               </tr>
                       {{/each}}
