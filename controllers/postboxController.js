@@ -124,5 +124,9 @@ module.exports = {
 
             return res.status(204).json();
         });
+    },
+
+    add: function (req, res) {
+        res.render('postbox/addpostbox');
     }
 };
