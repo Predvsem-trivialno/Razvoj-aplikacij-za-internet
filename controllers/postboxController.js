@@ -53,9 +53,9 @@ module.exports = {
     create: function (req, res) {
         var postbox = new PostboxModel({
 			postboxId : req.body.postboxId,
-			ownerId : req.body.ownerId,
-			canCreateKeys : req.body.canCreateKeys,
-			dateAdded : req.body.dateAdded
+			ownerId : req.session.userId,
+			canCreateKeys : false,
+			dateAdded : Date.now()
         });
 
         postbox.save(function (err, postbox) {
@@ -66,7 +66,8 @@ module.exports = {
                 });
             }
 
-            return res.status(201).json(postbox);
+            //return res.status(201).json(postbox);
+            return res.redirect('/');
         });
     },
 
