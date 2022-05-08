@@ -21,6 +21,16 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 
+var hbs = require('hbs');
+
+hbs.registerHelper('if_equal', function(a, b, opts) {
+  if (a == b) {
+      return opts.fn(this)
+  } else {
+      return opts.inverse(this)
+  }
+})
+
 var session = require('express-session');
 app.use(session({
   secret: 'work hard',

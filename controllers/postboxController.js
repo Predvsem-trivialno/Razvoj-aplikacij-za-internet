@@ -129,5 +129,9 @@ module.exports = {
 
     add: function (req, res) {
         res.render('postbox/addpostbox');
+    },
+
+    showBoxes: function (req, res) {
+        res.render('postbox/showboxes')
     }
 };

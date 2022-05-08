@@ -7,6 +7,7 @@ var postboxController = require('../controllers/postboxController.js');
  */
 router.get('/', postboxController.list);
 router.get('/addbox', postboxController.add)
+router.get('/show', postboxController.showBoxes)
 /*
  * GET
  */
