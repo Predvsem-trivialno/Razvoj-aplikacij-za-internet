@@ -11,15 +11,16 @@ module.exports = {
      * postboxController.list()
      */
     list: function (req, res) {
-        PostboxModel.find(function (err, postboxs) {
+        data = [];
+        PostboxModel.find(function (err, postbox) {
             if (err) {
                 return res.status(500).json({
                     message: 'Error when getting postbox.',
                     error: err
                 });
             }
-
-            return res.json(postboxs);
+            data.postbox = postbox;
+            return res.render('postbox/showboxes', data);
         });
     },
 
@@ -129,9 +130,5 @@ module.exports = {
 
     add: function (req, res) {
         res.render('postbox/addpostbox');
-    },
-
-    showBoxes: function (req, res) {
-        res.render('postbox/showboxes')
     }
 };
