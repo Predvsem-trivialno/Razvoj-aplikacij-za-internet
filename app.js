@@ -10,8 +10,8 @@ var postboxRouter = require('./routes/postboxRoutes')
 var accesslogRouter = require('./routes/accesslogRoutes');
 
 var mongoose = require('mongoose');
-//var mongoDB = 'mongodb+srv://root:root@cluster0.u3afm.mongodb.net/myFirstDatabase?retryWrites=true&w=majority';
-var mongoDB = 'mongodb://127.0.0.1/projekt';
+var mongoDB = 'mongodb+srv://root:root@cluster0.u3afm.mongodb.net/myFirstDatabase?retryWrites=true&w=majority';
+//var mongoDB = 'mongodb://127.0.0.1/projekt';
 mongoose.connect(mongoDB);
 mongoose.Promise = global.Promise;
 var db = mongoose.connection;
