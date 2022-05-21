@@ -137,9 +137,8 @@ module.exports = {
             }
 
             postbox.postboxId = req.body.postboxId ? req.body.postboxId : postbox.postboxId;
-			postbox.ownerId = req.body.ownerId ? req.body.ownerId : postbox.ownerId;
-			postbox.canCreateKeys = req.body.canCreateKeys ? req.body.canCreateKeys : postbox.canCreateKeys;
-			postbox.dateAdded = req.body.dateAdded ? req.body.dateAdded : postbox.dateAdded;
+            postbox.name = req.body.name ? req.body.name : postbox.name;
+            postbox.location = req.body.location ? req.body.location : postbox.location;
 			
             postbox.save(function (err, postbox) {
                 if (err) {
@@ -149,7 +148,7 @@ module.exports = {
                     });
                 }
 
-                return res.json(postbox);
+                return res.redirect('/postbox/show');
             });
         });
     },
@@ -168,11 +167,32 @@ module.exports = {
                 });
             }
 
-            return res.status(204).json();
+            return res.redirect('/postbox/show');
         });
     },
 
     add: function (req, res) {
         res.render('postbox/addpostbox');
+    }, 
+
+    edit: function (req, res) {
+        var id = req.params.id;
+
+        PostboxModel.findOne({_id: id}, function (err, postbox) {
+            if (err) {
+                return res.status(500).json({
+                    message: 'Error when getting postbox.',
+                    error: err
+                });
+            }
+
+            if (!postbox) {
+                return res.status(404).json({
+                    message: 'No such postbox'
+                });
+            }
+
+            return res.render('postbox/editpostbox', postbox);
+        });
     }
 };
