@@ -87,7 +87,7 @@ module.exports = {
             }
 
             //return res.status(201).json(postbox);
-            return res.redirect('/');
+            return res.redirect('/user/profile');
         });
     },
 
