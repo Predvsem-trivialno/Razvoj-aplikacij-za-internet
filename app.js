@@ -8,6 +8,7 @@ var indexRouter = require('./routes/index');
 var userRouter = require('./routes/userRoutes');
 var postboxRouter = require('./routes/postboxRoutes')
 var accesslogRouter = require('./routes/accesslogRoutes');
+var tokenRouter = require('./routes/tokenRoutes');
 
 var mongoose = require('mongoose');
 var mongoDB = 'mongodb+srv://root:root@cluster0.u3afm.mongodb.net/myFirstDatabase?retryWrites=true&w=majority';
@@ -61,6 +62,7 @@ app.use('/', indexRouter);
 app.use('/user', userRouter);
 app.use('/postbox', postboxRouter);
 app.use('/accesslog', accesslogRouter);
+app.use('/token', tokenRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
