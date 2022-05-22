@@ -5,8 +5,11 @@
           <div class="card-body p-5 text-center">
 
             <h3 class="mb-4">Sign in</h3>
+            {{#if success}}
+              <p class="text-success">{{success}}</p>
+            {{/if}}
             {{#if warning}}
-              <p class="text-success">{{warning}}</p>
+              <p class="text-warning">{{warning}}</p>
             {{/if}}
             <form action="/user/login" method="post">
             <div class="form-outline mb-4">

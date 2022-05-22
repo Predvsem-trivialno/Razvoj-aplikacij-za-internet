@@ -66,8 +66,7 @@ module.exports = {
                         error: err
                     });
                 }
-                var warning = "Registration successful! Please log in.";
-                return res.render('user/login', { warning });
+                return res.render('user/login', { success: "Registration successful! Please log in." });
             });
         }
         else {
@@ -136,7 +135,7 @@ module.exports = {
            if(error || !user){
                var err = new Error("Wrong username or password");
                err.status = 401;
-               return next(err);
+               return res.render('user/login', { warning: "Incorrect username or password."})
            } else{
                 req.session.userId = user._id;
                 req.session.userName = user.username;
