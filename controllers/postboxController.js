@@ -1,5 +1,6 @@
 var PostboxModel = require('../models/postboxModel.js');
 var AccesslogModel = require('../models/accesslogModel.js');
+var TokenModel = require('../models/tokenModel.js');
 
 /**
  * postboxController.js
@@ -29,12 +30,21 @@ module.exports = {
                             });
                         }
                         el.accessCount = accesslogs.length;
-                        if(postbox.indexOf(el)==postbox.length-1){
-                            data = [];
-                            data.postbox=postbox;
-                            console.log(data);
-                            return res.render('postbox/showboxes', data);
-                        }
+                        TokenModel.find({postboxId: el.postboxId}, function (err, tokens) {
+                            if (err) {
+                                return res.status(500).json({
+                                    message: 'Error when getting tokens.',
+                                    error: err
+                                });
+                            }
+                            el.tokenCount = tokens.length;
+                            if(postbox.indexOf(el)==postbox.length-1){
+                                data = [];
+                                data.postbox=postbox;
+                                console.log(data);
+                                return res.render('postbox/showboxes', data);
+                            }
+                        });
                     });
                 });
             } else {
