@@ -79,7 +79,7 @@ module.exports = {
                     });
                 }
     
-                return res.status(201).json(token);
+                return res.redirect('/token/'+req.body.postboxId);
             });
         });
     },
