@@ -133,9 +133,7 @@ module.exports = {
     login: function(req, res, next){
         UserModel.authenticate(req.body.username, req.body.password, function(error, user){
            if(error || !user){
-               var err = new Error("Wrong username or password");
-               err.status = 401;
-               return res.render('user/login', { warning: "Incorrect username or password."})
+               return res.render('user/login', { warning: "Wrong username or password."})
            } else{
                 req.session.userId = user._id;
                 req.session.userName = user.username;
