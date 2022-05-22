@@ -8,7 +8,7 @@ var postboxSchema = new Schema({
 	 	ref: 'User'
 	},
 	'name' : String,
-	'location' : String,
+	'location' : [Number],
 	'canCreateKeys' : Boolean,
 	'dateAdded' : Date
 });

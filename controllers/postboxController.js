@@ -85,7 +85,7 @@ module.exports = {
 			postboxId : req.body.postboxId,
 			ownerId : req.session.userId,
             name : req.body.name,
-            location : req.body.location,
+            location : [req.body.location,req.body.location2],
 			canCreateKeys : false,
 			dateAdded : Date.now()
         });
