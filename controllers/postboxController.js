@@ -13,13 +13,13 @@ module.exports = {
      */
     list: function (req, res) {
         data = [];
-        PostboxModel.find(function (err, postbox) {
+        PostboxModel.find({ownerId: req.session.userId}, function (err, postbox) {
             if (err) {
                 return res.status(500).json({
-                    message: 'Error when getting postbox.',
+                    message: 'Error when getting postboxes.',
                     error: err
                 });
-            } else {
+            } else if(postbox.length!=0){
                 postbox.forEach( el => {
                     AccesslogModel.find({postboxId: el.postboxId}, function (err, accesslogs) {
                         if (err) {
@@ -37,6 +37,8 @@ module.exports = {
                         }
                     });
                 });
+            } else {
+                return res.render('postbox/showboxes',data);
             }
         });
     },
