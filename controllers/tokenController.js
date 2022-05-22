@@ -1,4 +1,5 @@
 var TokenModel = require('../models/tokenModel.js');
+var UserModel = require('../models/userModel.js');
 
 /**
  * tokenController.js
@@ -11,15 +12,14 @@ module.exports = {
      * tokenController.list()
      */
     list: function (req, res) {
-        TokenModel.find(function (err, tokens) {
+        TokenModel.find({postboxId: req.params.id}).populate('userId').exec(function (err, tokens) {
             if (err) {
                 return res.status(500).json({
-                    message: 'Error when getting token.',
+                    message: 'Error when getting tokens.',
                     error: err
                 });
             }
-
-            return res.json(tokens);
+            return res.render('token/showtokens', { tokens: tokens, boxId: req.params.id });
         });
     },
 
@@ -51,23 +51,36 @@ module.exports = {
      * tokenController.create()
      */
     create: function (req, res) {
-        var token = new TokenModel({
-			boxId : req.body.boxId,
-			dateAdded : req.body.dateAdded,
-			dateExpiry : req.body.dateExpiry,
-			userId : req.body.userId,
-			name : req.body.name
-        });
-
-        token.save(function (err, token) {
+        UserModel.findOne({username: req.body.holder}, function (err, user) {
             if (err) {
                 return res.status(500).json({
-                    message: 'Error when creating token',
+                    message: 'Error when getting user.',
                     error: err
                 });
             }
 
-            return res.status(201).json(token);
+            if (!user) {
+                return res.render('token/addtoken', { boxId: req.body.postboxId, warning: "User doesn't exist!"});
+            }
+
+            var token = new TokenModel({
+                postboxId : req.body.postboxId,
+                dateAdded : Date.now(),
+                dateExpiry : req.body.expiration,
+                userId : user._id,
+                name : req.body.name
+            });
+    
+            token.save(function (err, token) {
+                if (err) {
+                    return res.status(500).json({
+                        message: 'Error when creating token',
+                        error: err
+                    });
+                }
+    
+                return res.status(201).json(token);
+            });
         });
     },
 
@@ -91,7 +104,7 @@ module.exports = {
                 });
             }
 
-            token.boxId = req.body.boxId ? req.body.boxId : token.boxId;
+            token.postboxId = req.body.boxId ? req.body.postboxId : token.postboxId;
 			token.dateAdded = req.body.dateAdded ? req.body.dateAdded : token.dateAdded;
 			token.dateExpiry = req.body.dateExpiry ? req.body.dateExpiry : token.dateExpiry;
 			token.userId = req.body.userId ? req.body.userId : token.userId;
@@ -126,5 +139,9 @@ module.exports = {
 
             return res.status(204).json();
         });
-    }
+    },
+
+    showAddToken: function (req, res) {
+        res.render('token/addtoken',{ boxId: req.params.id });
+    },
 };

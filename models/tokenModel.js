@@ -2,10 +2,7 @@ var mongoose = require('mongoose');
 var Schema   = mongoose.Schema;
 
 var tokenSchema = new Schema({
-	'boxId' : {
-	 	type: Schema.Types.ObjectId,
-	 	ref: 'postbox'
-	},
+	'postboxId' : String,
 	'dateAdded' : Date,
 	'dateExpiry' : Date,
 	'userId' : {

@@ -5,12 +5,13 @@ var tokenController = require('../controllers/tokenController.js');
 /*
  * GET
  */
-router.get('/', tokenController.list);
+router.get('/:id', tokenController.list);
 
 /*
  * GET
  */
 router.get('/:id', tokenController.show);
+router.get('/add/:id', tokenController.showAddToken);
 
 /*
  * POST
