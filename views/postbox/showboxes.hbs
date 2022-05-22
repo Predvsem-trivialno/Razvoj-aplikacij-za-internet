@@ -14,6 +14,7 @@
                           <th>Location</th>
                           <th>Added on</th>
                           <th>Access log</th>
+                          <th>Tokens</th>
                           <th>Edit</th>
                           <th>Remove</th>
                         </tr>
@@ -27,7 +28,7 @@
                                     <input type="hidden" name="postboxId" value="{{postboxId}}"></input>
                                     <input type="hidden" name="openedBy" value="{{../session.userId}}"></input>
                                     <input type="hidden" name="success" value="1"></input>
-                                    <button type="submit" class="btn btn-success border-dark"><i class="fas fa-solid fa-box-open"></i></button>
+                                    <button type="submit" class="btn btn-success border-dark"><i class="fa-solid fa-box-open"></i></button>
                                   </form>
                                 </td>
                                 <td>{{postboxId}}</td>
@@ -35,11 +36,13 @@
                                 <td>{{location}}</td>
                                 <td>{{dateFormat dateAdded}}</td>
                                 <td>
-                                  <a href='/accesslog/{{postboxId}}'>
-                                    <button type="button" class="btn btn-primary border-dark">
-                                      Overview
-                                      <span class="translate-middle badge rounded-pill bg-danger">{{accessCount}}</span>
-                                    </button>
+                                  <a href='/accesslog/{{postboxId}}' class="btn btn-primary border-dark">
+                                    <i class="fas fa-book"> <span class="translate-middle badge rounded-pill bg-secondary"> {{accessCount}}</span></i>
+                                  </a>
+                                </td>
+                                <td>
+                                  <a href="/token/{{postboxId}}" class="btn btn-primary border-dark">
+                                    <i class="fas fa-key"> <span class="translate-middle badge rounded-pill bg-secondary"> {{tokenCount}}</span></i>
                                   </a>
                                 </td>
                                 <td>
