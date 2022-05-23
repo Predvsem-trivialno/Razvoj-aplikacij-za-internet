@@ -133,6 +133,7 @@ module.exports = {
      */
     update: function (req, res) {
         var id = req.params.id;
+        var location = [req.body.location,req.body.location2];
 
         PostboxModel.findOne({_id: id}, function (err, postbox) {
             if (err) {
@@ -150,7 +151,7 @@ module.exports = {
 
             postbox.postboxId = req.body.postboxId ? req.body.postboxId : postbox.postboxId;
             postbox.name = req.body.name ? req.body.name : postbox.name;
-            postbox.location = req.body.location ? req.body.location : postbox.location;
+            postbox.location = location ? location : postbox.location;
 			
             postbox.save(function (err, postbox) {
                 if (err) {

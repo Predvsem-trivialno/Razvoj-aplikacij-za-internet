@@ -25,7 +25,10 @@
                   </div>
 
                   <div class="form-outline flex-fill mb-0 mb-2">
-                    <input type="text" id="form3Example1c" name="location" class="form-control" value="{{location}}"/>
+                    <div class="input-group">
+                      <input type="text" id="form3Example1c" name="location" class="form-control w-50" placeholder="Latitude" value="{{location.[0]}}" /> 
+                      <input type="text" id="form3Example1c" name="location2" class="form-control w-50" placeholder="Longitude" value="{{location.[1]}}" />
+                    </div>
                     <i class="fa-solid fa-compass"></i>
                     <label class="form-label" for="form3Example1c">Enter the box's new location</label>
                   </div>
