@@ -104,7 +104,11 @@ module.exports = {
     },
 
     open: function (req, res) {
-        PostboxModel.findOne({_id: id}, function (err, postbox) {
+        var box = req.body.postboxId
+        var user = req.body.userId
+        var success = req.body.success
+        var date = Date.now()
+        PostboxModel.findOne({_id: box}, function (err, postbox) {
             if (err) {
                 return res.status(500).json({
                     message: 'Error when getting postbox.',
@@ -118,13 +122,36 @@ module.exports = {
                 });
             }
 
-            if(req.body.openerId == postbox.ownerId){       //Se avtomatsko odpre
+            if(user == postbox.ownerId){       //Se avtomatsko odpre
                 AccesslogModel.create
                 return res.json(postbox);
             } else {                                        //Preveri med dostopne žetone, če uporabnik ima dovoljenje za paketnik
-                
+                TokenModel.find({postboxId: postbox.postboxId}, function(err, tokens) {
+                    if (err) {
+                        return res.status(500).json({
+                            message: 'Error when getting access tokens.',
+                            error: err
+                        });
+                    }
+        
+                    if (!tokens) {
+                        return res.status(403).json({
+                            message: 'You do not have access to this postbox.'
+                        });
+                    }
+
+                    tokens.forEach( el => {
+                        if(user == el.userId){
+                            return res.json(postbox);
+                        }
+                        if(tokens.indexOf(el)==tokens.length-1){
+                            return res.status(403).json({
+                                message: 'You do not have access to this postbox.'
+                            });
+                        }
+                    });
+                });
             }
-            
         });
     },
 

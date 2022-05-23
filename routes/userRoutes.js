@@ -17,6 +17,7 @@ router.get('/support', userController.showSupport);
  */
 router.post('/', userController.create);
 router.post('/login', userController.login);
+router.post('/mobileLogin', userController.mobileLogin);
 router.post('/support', userController.sendEmail);
 
 /*

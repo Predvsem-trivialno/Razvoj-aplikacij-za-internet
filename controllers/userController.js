@@ -142,6 +142,18 @@ module.exports = {
         });
     },
 
+    mobileLogin: function(req, res){
+        UserModel.authenticate(req.body.username, req.body.password, function(error, user){
+            if(error || !user){
+                return res.status(404).json({
+                    message: 'Wrong username or password.'
+                });
+            } else{
+                return res.json(user);
+            }
+         });
+    },
+
     logout: function (req,res,next){
         if(req.session){
             req.session.destroy(function(err){
