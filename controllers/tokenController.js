@@ -128,6 +128,7 @@ module.exports = {
      */
     remove: function (req, res) {
         var id = req.params.id;
+        var postboxId = req.params.postboxId;
 
         TokenModel.findByIdAndRemove(id, function (err, token) {
             if (err) {
@@ -137,7 +138,7 @@ module.exports = {
                 });
             }
 
-            return res.status(204).json();
+            return res.redirect('/token/'+ postboxId);
         });
     },
 

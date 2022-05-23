@@ -12,6 +12,7 @@ router.get('/:id', tokenController.list);
  */
 router.get('/:id', tokenController.show);
 router.get('/add/:id', tokenController.showAddToken);
+router.get('/remove/:id/tmp/:postboxId', tokenController.remove);
 
 /*
  * POST
@@ -26,6 +27,5 @@ router.put('/:id', tokenController.update);
 /*
  * DELETE
  */
-router.delete('/:id', tokenController.remove);
 
 module.exports = router;
