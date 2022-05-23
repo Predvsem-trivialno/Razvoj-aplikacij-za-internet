@@ -104,21 +104,18 @@ module.exports = {
                 });
             }
 
-            token.postboxId = req.body.boxId ? req.body.postboxId : token.postboxId;
-			token.dateAdded = req.body.dateAdded ? req.body.dateAdded : token.dateAdded;
-			token.dateExpiry = req.body.dateExpiry ? req.body.dateExpiry : token.dateExpiry;
-			token.userId = req.body.userId ? req.body.userId : token.userId;
+            token.dateExpiry = req.body.expiration ? req.body.expiration : token.dateExpiry;
 			token.name = req.body.name ? req.body.name : token.name;
-			
+
             token.save(function (err, token) {
                 if (err) {
                     return res.status(500).json({
-                        message: 'Error when updating token.',
-                        error: err
+                         message: 'Error when updating token.',
+                         error: err
                     });
                 }
-
-                return res.json(token);
+    
+                return res.redirect('/token/' + token.postboxId);
             });
         });
     },
@@ -145,4 +142,25 @@ module.exports = {
     showAddToken: function (req, res) {
         res.render('token/addtoken',{ boxId: req.params.id });
     },
+
+    edit: function (req, res) {
+        var id = req.params.id;
+
+        TokenModel.findOne({_id: id}).populate('userId').exec(function (err, token) {
+            if (err) {
+                return res.status(500).json({
+                    message: 'Error when getting token.',
+                    error: err
+                });
+            }
+
+            if (!token) {
+                return res.status(404).json({
+                    message: 'No such token'
+                });
+            }
+
+            return res.render('token/edittoken', token);
+        });
+    }
 };

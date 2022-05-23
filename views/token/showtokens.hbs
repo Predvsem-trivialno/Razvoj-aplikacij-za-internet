@@ -11,6 +11,7 @@
                         <th>User</th>
                         <th>Name</th>
                         <th>Expiry</th>
+                        <th>Edit</th>
                         <th>Remove</th>
                     </tr>
                     </thead>
@@ -20,6 +21,9 @@
                             <td>{{userId.username}}</td>
                             <td>{{name}}</td>
                             <td>{{dateFormat dateExpiry}}</td>
+                            <td>
+                              <a href="/token/edit/{{_id}}" class="btn btn-warning border-dark"> <i class="fas fa-plus"></i></a>
+                            </td>
                             <td>
                               <a href="/token/remove/{{_id}}/tmp/{{postboxId}}" class="btn btn-danger border-dark" onclick="return confirm('Are you sure?')"> <i class="fas fa-minus"></i></a>
                             </td>
