@@ -1,6 +1,7 @@
 const session = require('express-session');
 var UserModel = require('../models/userModel.js');
 const spawn = require('child_process').spawn;
+var path = require('path');
 
 /**
  * userController.js
@@ -168,21 +169,21 @@ module.exports = {
     },
 
     mobileLoginFace: function(req, res){
-        console.log("hi")
-        const pyLogin = spawn('python',['./python/login.py',req.session.userName]);
-        console.log("hi")
+        var scriptPath = path.resolve('./public/python/login.py');
+        const pyLogin = spawn('python',[scriptPath,req.session.userName]);
+        pyLogin.stderr.pipe(process.stderr);
         pyLogin.stdout.on('data',function(data){
-            console.log("hi")
             return res.json(data.toString());
-        })
+        });
     },
 
     mobileRegisterFace: function(req, res){
-        const pyRegister = spawn('python',['./python/register.py']);
+        var scriptPath = path.resolve('./public/python/register.py');
+        const pyRegister = spawn('python',[scriptPath,req.session.userName]);
+        pyRegister.stderr.pipe(process.stderr);
         pyRegister.stdout.on('data',function(data){
-            console.log(data.toString());
-            return res.json('end');
-        })
+            return res.json(data.toString());
+        });
     },
 
     logout: function (req,res,next){
