@@ -24,12 +24,12 @@
             </li>
           </ul>
           <ul class="navbar-nav ml-auto">
-            <li class="nav-item"><a class="nav-link"  href="/user/logout"><i class="fas fa-sign-in-alt"></i> Odjava ({{session.userName}})</a></li>
+            <li class="nav-item"><a class="nav-link"  href="/user/logout"><i class="fas fa-sign-in-alt"></i> Log out ({{session.userName}})</a></li>
           </ul>
         {{else}}
         <ul class="navbar-nav ml-auto">
-          <li class="nav-item"><a class="nav-link" href="/user/login"><i class="fas fa-sign-in-alt"></i> Prijava</a></li>
-          <li class="nav-item"><a class="nav-link" href="/user/register"><i class="fas fa-sign-in-alt"></i> Registracija</a></li>
+          <li class="nav-item"><a class="nav-link" href="/user/login"><i class="fas fa-sign-in-alt"></i> Log in</a></li>
+          <li class="nav-item"><a class="nav-link" href="/user/register"><i class="fas fa-sign-in-alt"></i> Register</a></li>
         </ul>
         {{/if}}
       </div>

@@ -12,7 +12,7 @@ module.exports = {
      */
     list: function (req, res) {
         data = [];
-        AccesslogModel.find({postboxId: req.params.id}, function (err, accesslogs) {
+        AccesslogModel.find({postboxId: req.params.id}).populate('openedBy').exec(function (err, accesslogs) {
             if (err) {
                 return res.status(500).json({
                     message: 'Error when getting accesslog.',

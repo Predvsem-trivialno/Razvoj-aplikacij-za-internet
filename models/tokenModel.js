@@ -12,4 +12,5 @@ var tokenSchema = new Schema({
 	'name' : String
 });
 
-module.exports = mongoose.model('token', tokenSchema);
+var Token = mongoose.model('token', tokenSchema);
+module.exports = Token;

@@ -17,7 +17,7 @@
                     </thead>
                     <tbody>
                     {{#each tokens}}
-                        <tr>
+                        <tr {{#dateExpired dateExpiry}}class="table-secondary"{{/dateExpired}}>
                             <td>{{userId.username}}</td>
                             <td>{{name}}</td>
                             <td>{{dateFormat dateExpiry}}</td>

@@ -13,6 +13,7 @@ router.get('/:id', tokenController.list);
 router.get('/:id', tokenController.show);
 router.get('/add/:id', tokenController.showAddToken);
 router.get('/remove/:id/tmp/:postboxId', tokenController.remove);
+router.get('/remove/:id', tokenController.removeOther);
 router.get('/edit/:id', tokenController.edit);
 
 /*

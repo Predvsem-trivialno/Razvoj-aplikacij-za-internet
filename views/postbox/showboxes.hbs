@@ -57,21 +57,23 @@
                       </tbody>
                   </table>
                   {{#if tokens}}
-                    <p class="text-center h3 fw-bold mb-5 mx-1 mx-md-10 mt-4">Your active access tokens</p>
+                    <p class="text-center h3 fw-bold mb-5 mx-1 mx-md-10 mt-4">Your access tokens</p>
                     <table class="table table-hover">
                       <thead>
                       <tr>
                           <th>Box</th>
                           <th>Name</th>
                           <th>Expiry</th>
+                          <th></th>
                       </tr>
                       </thead>
                       <tbody>
                       {{#each tokens}}
-                          <tr>
+                          <tr {{#dateExpired dateExpiry}}class="table-secondary"{{/dateExpired}}>
                               <td>{{postboxId}}</td>
                               <td>{{name}}</td>
                               <td>{{dateFormat dateExpiry}}</td>
+                              <td>{{#dateExpired dateExpiry}}<a class="text-danger" href="/token/remove/{{_id}}">Remove</a>{{/dateExpired}}</td>
                           </tr>
                       {{/each}}
                       </tbody>

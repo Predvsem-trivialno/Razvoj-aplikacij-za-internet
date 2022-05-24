@@ -23,7 +23,7 @@ module.exports = {
 
     list: function (req, res) {
         data = [];
-        TokenModel.find({userId: req.session.userId}, function (err, tokens) {
+        TokenModel.find({userId: req.session.userId}).sort({dateExpiry: -1}).exec(function (err, tokens) {
             if (err) {
                 return res.status(500).json({
                     message: 'Error when getting tokens.',
@@ -57,7 +57,6 @@ module.exports = {
                                 el.tokenCount = boxTokens.length;
                                 if(postbox.indexOf(el)==postbox.length-1){
                                     data.postbox=postbox;
-                                    console.log(data);
                                     return res.render('postbox/showboxes', data);
                                 }
                             });

@@ -12,7 +12,7 @@ module.exports = {
      * tokenController.list()
      */
     list: function (req, res) {
-        TokenModel.find({postboxId: req.params.id}).populate('userId').exec(function (err, tokens) {
+        TokenModel.find({postboxId: req.params.id}).sort({dateExpiry: -1}).populate('userId').exec(function (err, tokens) {
             if (err) {
                 return res.status(500).json({
                     message: 'Error when getting tokens.',
@@ -136,6 +136,21 @@ module.exports = {
             }
 
             return res.redirect('/token/'+ postboxId);
+        });
+    },
+
+    removeOther: function (req, res) {
+        var id = req.params.id;
+
+        TokenModel.findByIdAndRemove(id, function (err, token) {
+            if (err) {
+                return res.status(500).json({
+                    message: 'Error when deleting the token.',
+                    error: err
+                });
+            }
+
+            return res.redirect('/postbox/show');
         });
     },
 

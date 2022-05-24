@@ -16,8 +16,8 @@
                     <tbody>
                     {{#each accesslogs}}
                         <tr>
-                            <td>{{openedBy}}</td>
-                            <td>{{dateOpened}}</td>
+                            <td>{{openedBy.username}}</td>
+                            <td>{{dateFormat dateOpened}}</td>
                             <td>{{success}}</td>
                             </tr>
                     {{/each}}

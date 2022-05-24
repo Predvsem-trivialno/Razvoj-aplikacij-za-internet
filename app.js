@@ -38,6 +38,13 @@ hbs.registerHelper('dateFormat', function (date, options) {
   const formatToUse = (arguments[1] && arguments[1].hash && arguments[1].hash.format) || "DD. MM. YYYY (HH:mm)"
   return moment(date).format(formatToUse);
 });
+hbs.registerHelper('dateExpired', function (date, opts){
+  if(date < Date.now()){
+    return opts.fn(this)
+  } else {
+    return opts.inverse(this)
+  }
+});
 
 var session = require('express-session');
 const req = require('express/lib/request');
