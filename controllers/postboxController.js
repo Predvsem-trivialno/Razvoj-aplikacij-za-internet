@@ -47,14 +47,14 @@ module.exports = {
                                 });
                             }
                             el.accessCount = accesslogs.length;
-                            TokenModel.find({postboxId: el.postboxId}, function (err, tokens) {
+                            TokenModel.find({postboxId: el.postboxId}, function (err, boxTokens) {
                                 if (err) {
                                     return res.status(500).json({
-                                        message: 'Error when getting tokens.',
+                                        message: 'Error when getting boxTokens.',
                                         error: err
                                     });
                                 }
-                                el.tokenCount = tokens.length;
+                                el.tokenCount = boxTokens.length;
                                 if(postbox.indexOf(el)==postbox.length-1){
                                     data.postbox=postbox;
                                     console.log(data);
