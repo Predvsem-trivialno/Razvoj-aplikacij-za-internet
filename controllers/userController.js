@@ -1,5 +1,6 @@
 const session = require('express-session');
 var UserModel = require('../models/userModel.js');
+const spawn = require('child_process').spawn;
 
 /**
  * userController.js
@@ -152,6 +153,36 @@ module.exports = {
                 return res.json(user);
             }
          });
+    },
+
+    mobileLogin: function(req, res){
+        UserModel.authenticate(req.body.username, req.body.password, function(error, user){
+            if(error || !user){
+                return res.status(404).json({
+                    message: 'Wrong username or password.'
+                });
+            } else{
+                return res.json(user);
+            }
+         });
+    },
+
+    mobileLoginFace: function(req, res){
+        console.log("hi")
+        const pyLogin = spawn('python',['./python/login.py',req.session.userName]);
+        console.log("hi")
+        pyLogin.stdout.on('data',function(data){
+            console.log("hi")
+            return res.json(data.toString());
+        })
+    },
+
+    mobileRegisterFace: function(req, res){
+        const pyRegister = spawn('python',['./python/register.py']);
+        pyRegister.stdout.on('data',function(data){
+            console.log(data.toString());
+            return res.json('end');
+        })
     },
 
     logout: function (req,res,next){
