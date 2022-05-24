@@ -14,42 +14,50 @@ module.exports = {
      */
     list: function (req, res) {
         data = [];
-        PostboxModel.find({ownerId: req.session.userId}, function (err, postbox) {
+        TokenModel.find({userId: req.session.userId}, function (err, tokens) {
             if (err) {
                 return res.status(500).json({
-                    message: 'Error when getting postboxes.',
+                    message: 'Error when getting tokens.',
                     error: err
                 });
-            } else if(postbox.length!=0){
-                postbox.forEach( el => {
-                    AccesslogModel.find({postboxId: el.postboxId}, function (err, accesslogs) {
-                        if (err) {
-                            return res.status(500).json({
-                                message: 'Error when getting accesslogs.',
-                                error: err
-                            });
-                        }
-                        el.accessCount = accesslogs.length;
-                        TokenModel.find({postboxId: el.postboxId}, function (err, tokens) {
+            }
+            data.tokens=tokens;
+            PostboxModel.find({ownerId: req.session.userId}, function (err, postbox) {
+                if (err) {
+                    return res.status(500).json({
+                        message: 'Error when getting postboxes.',
+                        error: err
+                    });
+                } else if(postbox.length!=0){
+                    postbox.forEach( el => {
+                        AccesslogModel.find({postboxId: el.postboxId}, function (err, accesslogs) {
                             if (err) {
                                 return res.status(500).json({
-                                    message: 'Error when getting tokens.',
+                                    message: 'Error when getting accesslogs.',
                                     error: err
                                 });
                             }
-                            el.tokenCount = tokens.length;
-                            if(postbox.indexOf(el)==postbox.length-1){
-                                data = [];
-                                data.postbox=postbox;
-                                console.log(data);
-                                return res.render('postbox/showboxes', data);
-                            }
+                            el.accessCount = accesslogs.length;
+                            TokenModel.find({postboxId: el.postboxId}, function (err, tokens) {
+                                if (err) {
+                                    return res.status(500).json({
+                                        message: 'Error when getting tokens.',
+                                        error: err
+                                    });
+                                }
+                                el.tokenCount = tokens.length;
+                                if(postbox.indexOf(el)==postbox.length-1){
+                                    data.postbox=postbox;
+                                    console.log(data);
+                                    return res.render('postbox/showboxes', data);
+                                }
+                            });
                         });
                     });
-                });
-            } else {
-                return res.render('postbox/showboxes',data);
-            }
+                } else {
+                    return res.render('postbox/showboxes',data);
+                }
+            });
         });
     },
 
