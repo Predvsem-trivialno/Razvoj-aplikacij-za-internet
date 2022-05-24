@@ -17,6 +17,7 @@ router.get('/:id', postboxController.show);
 /*
  * POST
  */
+router.post('/mobileList', postboxController.mobileList);
 router.post('/', postboxController.create);
 router.post('/open', postboxController.open);
 router.post('/update/:id', postboxController.update);

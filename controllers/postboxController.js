@@ -9,9 +9,18 @@ var TokenModel = require('../models/tokenModel.js');
  */
 module.exports = {
 
-    /**
-     * postboxController.list()
-     */
+    mobileList: function (req, res) {
+        PostboxModel.find({ownerId: req.body.userId}, function (err, postbox) {
+            if (err) {
+                return res.status(500).json({
+                    message: 'Error when getting postboxes.',
+                    error: err
+                });
+            }
+            return res.json(data);
+        });
+    },
+
     list: function (req, res) {
         data = [];
         TokenModel.find({userId: req.session.userId}, function (err, tokens) {
