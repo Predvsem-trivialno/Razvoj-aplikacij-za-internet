@@ -156,18 +156,6 @@ module.exports = {
          });
     },
 
-    mobileLogin: function(req, res){
-        UserModel.authenticate(req.body.username, req.body.password, function(error, user){
-            if(error || !user){
-                return res.status(404).json({
-                    message: 'Wrong username or password.'
-                });
-            } else{
-                return res.json(user);
-            }
-         });
-    },
-
     mobileLoginFace: function(req, res){
         var scriptPath = path.resolve('./public/python/login.py');
         const pyLogin = spawn('python',[scriptPath,req.session.userName]);
