@@ -1,3 +1,3 @@
 import sys
-print("Hello login",sys.argv[1])
-#sys.stdout.flush()
+print("Ran from python script:")
+print("Hello login",sys.argv[1],flush=True)
