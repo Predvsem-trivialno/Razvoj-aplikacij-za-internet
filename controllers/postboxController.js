@@ -120,10 +120,12 @@ module.exports = {
     },
 
     open: function (req, res) {
-        var box = req.body.postboxId
-        var user = req.body.userId
-        var success = req.body.success
-        var date = Date.now()
+        var accesslog = new AccesslogModel({
+			postboxId : req.body.postboxId,
+			dateOpened : Date.now(),
+			openedBy : req.body.userId,
+			success : req.body.success
+        });
         PostboxModel.findOne({_id: box}, function (err, postbox) {
             if (err) {
                 return res.status(500).json({
@@ -131,16 +133,21 @@ module.exports = {
                     error: err
                 });
             }
-
             if (!postbox) {
                 return res.status(404).json({
                     message: 'No such postbox'
                 });
             }
-
             if(user == postbox.ownerId){       //Se avtomatsko odpre
-                AccesslogModel.create
-                return res.json(postbox);
+                accesslog.save(function (err, accesslog) {
+                    if (err) {
+                        return res.status(500).json({
+                            message: 'Error when creating accesslog',
+                            error: err
+                        });
+                    }
+                    return res.json(postbox);
+                });
             } else {                                        //Preveri med dostopne žetone, če uporabnik ima dovoljenje za paketnik
                 TokenModel.find({postboxId: postbox.postboxId}, function(err, tokens) {
                     if (err) {
@@ -158,7 +165,19 @@ module.exports = {
 
                     tokens.forEach( el => {
                         if(user == el.userId){
-                            return res.json(postbox);
+                            if(el.dateExpiry<Date.now()){
+                                return res.status(403).json({message: 'Your access token for this box has expired.'});
+                            } else {
+                                accesslog.save(function (err, accesslog) {
+                                    if (err) {
+                                        return res.status(500).json({
+                                            message: 'Error when creating accesslog',
+                                            error: err
+                                        });
+                                    }
+                                    return res.json(postbox);
+                                });
+                            }
                         }
                         if(tokens.indexOf(el)==tokens.length-1){
                             return res.status(403).json({
