@@ -55,15 +55,15 @@ hbs.registerHelper('dateExpired', function (date, opts){
   }
 });
 hbs.registerHelper('toAddress', function(coords, opts){
-  geocoder.reverse({lat:coords[0], lon:coords[1]}, function(err, res) {
-    if(!err){
-        var address = res[0].streetName+" "+res[0].streetNumber+", "+res[0].zipcode+" "+res[0].city+", "+res[0].countryCode;
-        console.log(address);
-        return address;
-    } else {
-      return "API call failed!";
-    }
-  });
+  //geocoder.reverse({lat:coords[0], lon:coords[1]}, function(err, res) {
+  //  if(!err){
+  //      var address = res[0].streetName+" "+res[0].streetNumber+", "+res[0].zipcode+" "+res[0].city+", "+res[0].countryCode;
+  //      console.log(address);
+  //      return address;
+  //  } else {
+  //    return "API call failed!";
+  //  }
+  //});
   return coords[0].toFixed(4) + " " + coords[1].toFixed(4);
 });
 
