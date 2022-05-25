@@ -133,7 +133,7 @@ module.exports = {
         var accesslog = new AccesslogModel({
 			postboxId : req.body.postboxId,
 			dateOpened : Date.now(),
-			openedBy : ObjectId(req.body.userId),
+			openedBy : mongoose.Types.ObjectId(req.body.userId),
 			success : req.body.success
         });
         PostboxModel.findOne({_id: box}, function (err, postbox) {
