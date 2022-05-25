@@ -3,6 +3,15 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const NodeGeocoder = require('node-geocoder');
+
+const options = {
+  provider: 'locationiq',
+  apiKey: 'pk.4de90d24c9dcf87e488bb84dcc4da58f',
+  format: null
+};
+
+const geocoder = NodeGeocoder(options);
 
 var indexRouter = require('./routes/index');
 var userRouter = require('./routes/userRoutes');
@@ -33,7 +42,7 @@ hbs.registerHelper('if_equal', function(a, b, opts) {
   } else {
       return opts.inverse(this)
   }
-})
+});
 hbs.registerHelper('dateFormat', function (date, options) {
   const formatToUse = (arguments[1] && arguments[1].hash && arguments[1].hash.format) || "DD. MM. YYYY (HH:mm)"
   return moment(date).format(formatToUse);
@@ -45,9 +54,22 @@ hbs.registerHelper('dateExpired', function (date, opts){
     return opts.inverse(this)
   }
 });
+hbs.registerHelper('toAddress', function(coords, opts){
+  geocoder.reverse({lat:coords[0], lon:coords[1]}, function(err, res) {
+    if(!err){
+        var address = res[0].streetName+" "+res[0].streetNumber+", "+res[0].zipcode+" "+res[0].city+", "+res[0].countryCode;
+        console.log(address);
+        return address;
+    } else {
+      return "API call failed!";
+    }
+  });
+  return coords[0].toFixed(4) + " " + coords[1].toFixed(4);
+});
 
 var session = require('express-session');
 const req = require('express/lib/request');
+const async = require('hbs/lib/async');
 app.use(session({
   secret: 'work hard',
   resave: true,

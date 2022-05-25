@@ -2,6 +2,16 @@ var PostboxModel = require('../models/postboxModel.js');
 var AccesslogModel = require('../models/accesslogModel.js');
 var TokenModel = require('../models/tokenModel.js');
 
+const NodeGeocoder = require('node-geocoder');
+
+const options = {
+  provider: 'locationiq',
+  apiKey: 'pk.4de90d24c9dcf87e488bb84dcc4da58f',
+  format: null
+};
+
+const geocoder = NodeGeocoder(options);
+
 /**
  * postboxController.js
  *
@@ -23,7 +33,7 @@ module.exports = {
 
     list: function (req, res) {
         data = [];
-        TokenModel.find({userId: req.session.userId}).sort({dateExpiry: -1}).exec(function (err, tokens) {
+        TokenModel.find({userId: req.session.userId}).sort({dateExpiry: -1}).lean().exec(function (err, tokens) {
             if (err) {
                 return res.status(500).json({
                     message: 'Error when getting tokens.',
@@ -31,7 +41,7 @@ module.exports = {
                 });
             }
             data.tokens=tokens;
-            PostboxModel.find({ownerId: req.session.userId}, function (err, postbox) {
+            PostboxModel.find({ownerId: req.session.userId}).lean().exec(function (err, postbox) {
                 if (err) {
                     return res.status(500).json({
                         message: 'Error when getting postboxes.',
@@ -39,7 +49,7 @@ module.exports = {
                     });
                 } else if(postbox.length!=0){
                     postbox.forEach( el => {
-                        AccesslogModel.find({postboxId: el.postboxId}, function (err, accesslogs) {
+                        AccesslogModel.find({postboxId: el.postboxId}).lean().exec(function (err, accesslogs) {
                             if (err) {
                                 return res.status(500).json({
                                     message: 'Error when getting accesslogs.',
@@ -47,7 +57,7 @@ module.exports = {
                                 });
                             }
                             el.accessCount = accesslogs.length;
-                            TokenModel.find({postboxId: el.postboxId}, function (err, boxTokens) {
+                            TokenModel.find({postboxId: el.postboxId}).lean().exec(function (err, boxTokens) {
                                 if (err) {
                                     return res.status(500).json({
                                         message: 'Error when getting boxTokens.',

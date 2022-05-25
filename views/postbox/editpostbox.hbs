@@ -26,8 +26,8 @@
 
                   <div class="form-outline flex-fill mb-0 mb-2">
                     <div class="input-group">
-                      <input type="text" id="form3Example1c" name="location" class="form-control w-50" placeholder="Latitude" value="{{location.[0]}}" /> 
-                      <input type="text" id="form3Example1c" name="location2" class="form-control w-50" placeholder="Longitude" value="{{location.[1]}}" />
+                      <input type="text" id="location" name="location" class="form-control w-50" placeholder="Latitude" value="{{location.[0]}}" readonly/> 
+                      <input type="text" id="location2" name="location2" class="form-control w-50" placeholder="Longitude" value="{{location.[1]}}" readonly/>
                     </div>
                     <i class="fa-solid fa-compass"></i>
                     <label class="form-label" for="form3Example1c">Enter the box's new location</label>
@@ -40,12 +40,32 @@
                 </form>
 
               </div>
-              <div class="col-md-10 col-lg-6 col-xl-7 d-flex align-items-center order-1 order-lg-2">
-
-                <img src="/images/registration.jpeg"
-                  class="img-fluid" alt="Prišlo je do napake.">
+              <link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css"
+              integrity="sha512-hoalWLoI8r4UszCkZ5kL8vayOGVae1oxXe/2A4AO6J9+580uKHDO3JdHb7NzwwzK5xr/Fs0W40kiNHxM9vyTtQ=="
+              crossorigin=""/>
+              <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"
+              integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ=="
+              crossorigin=""></script>
+              <div id="mapEdit" class="col-md-10 col-lg-6 col-xl-7 d-flex align-items-center order-1 order-lg-2">
 
               </div>
+              <script>
+                var inputlat = document.getElementById("location");
+                var inputlng = document.getElementById("location2");
+                function onMapClick(e) {
+                    inputlat.value = e.latlng.lat;
+                    inputlng.value = e.latlng.lng;
+                    marker.setLatLng(e.latlng);
+                    map.panTo(e.latlng);
+                }
+                var map = L.map('mapEdit').setView([{{location}}], 13);
+                var marker = L.marker([{{location}}]).addTo(map).bindPopup("The location of your postbox.");
+                map.on('click', onMapClick);
+
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                }).addTo(map);
+              </script>
             </div>
           </div>
         </div>
