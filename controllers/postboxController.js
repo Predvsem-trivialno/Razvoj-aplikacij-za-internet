@@ -133,12 +133,6 @@ module.exports = {
     open: function (req, res) {                     //takes postboxId as the postbox number, user is mongodb userId
         var box = req.body.postboxId
         var u = mongoose.Types.ObjectId(req.body.openedBy)
-        var accesslog = new AccesslogModel({
-			postboxId : box,
-			dateOpened : Date.now(),
-			openedBy : u,
-			success : req.body.success
-        });
         PostboxModel.findOne({postboxId: box}).exec(function (err, postbox) {
             if (err) {
                 return res.status(500).json({
@@ -151,16 +145,8 @@ module.exports = {
                     message: 'No such postbox'
                 });
             }
-            if(u == postbox.ownerId){       //Se avtomatsko odpre
-                accesslog.save(function (err, accesslog) {
-                    if (err) {
-                        return res.status(500).json({
-                            message: 'Error when creating accesslog',
-                            error: err
-                        });
-                    }
-                    return res.json(postbox);
-                });
+            if(u == postbox.ownerId){       //Se avtomatsko odobri
+                return res.json(postbox);
             } else {                                        //Preveri med dostopne žetone, če uporabnik ima dovoljenje za paketnik
                 TokenModel.find({postboxId: box}, function(err, tokens) {
                     if (err) {
@@ -181,15 +167,7 @@ module.exports = {
                             if(el.dateExpiry<Date.now()){
                                 return res.status(403).json({message: 'Your access token for this box has expired.'});
                             } else {
-                                accesslog.save(function (err, accesslog) {
-                                    if (err) {
-                                        return res.status(500).json({
-                                            message: 'Error when creating accesslog',
-                                            error: err
-                                        });
-                                    }
-                                    return res.json(postbox);
-                                });
+                                return res.json(postbox);
                             }
                         }
                         console.log("test outside")
