@@ -131,7 +131,6 @@ module.exports = {
     },
 
     open: function (req, res) {                     //takes postboxId as the postbox number, user is mongodb userId
-        console.log("1")
         var box = req.body.postboxId
         var u = req.body.openedBy
         var accesslog = new AccesslogModel({
@@ -140,7 +139,6 @@ module.exports = {
 			openedBy : u,
 			success : req.body.success
         });
-        console.log("2")
         PostboxModel.findOne({postboxId: box}).exec(function (err, postbox) {
             if (err) {
                 return res.status(500).json({
@@ -153,7 +151,6 @@ module.exports = {
                     message: 'No such postbox'
                 });
             }
-            console.log("3")
             if(u == postbox.ownerId){       //Se avtomatsko odpre
                 accesslog.save(function (err, accesslog) {
                     if (err) {
@@ -178,7 +175,7 @@ module.exports = {
                             message: 'You do not have access to this postbox.'
                         });
                     }
-                    console.log("4")
+                    console.log(tokens)
                     tokens.forEach( el => {
                         if(user == el.userId){
                             if(el.dateExpiry<Date.now()){
