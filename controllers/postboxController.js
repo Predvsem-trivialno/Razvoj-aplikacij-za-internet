@@ -151,6 +151,9 @@ module.exports = {
                     message: 'No such postbox'
                 });
             }
+            console.log(u==postbox.ownerId)
+            console.log(typeof(u))
+            console.log(typeof(postbox.ownerId))
             if(u == postbox.ownerId){       //Se avtomatsko odpre
                 accesslog.save(function (err, accesslog) {
                     if (err) {
