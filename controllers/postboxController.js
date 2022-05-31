@@ -133,6 +133,7 @@ module.exports = {
     open: function (req, res) {                     //takes postboxId as the postbox number, user is mongodb userId
         var box = req.body.postboxId
         var u = mongoose.Types.ObjectId(req.body.openedBy)
+        console.log(req.body)
         PostboxModel.findOne({postboxId: box}).exec(function (err, postbox) {
             if (err) {
                 return res.status(500).json({
