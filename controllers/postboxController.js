@@ -175,9 +175,8 @@ module.exports = {
                             message: 'You do not have access to this postbox.'
                         });
                     }
-                    console.log(tokens)
                     tokens.forEach( el => {
-                        if(user == el.userId){
+                        if(u == el.userId){
                             if(el.dateExpiry<Date.now()){
                                 return res.status(403).json({message: 'Your access token for this box has expired.'});
                             } else {
