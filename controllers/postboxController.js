@@ -133,8 +133,55 @@ module.exports = {
     open: function (req, res) {                     //takes postboxId as the postbox number, user is mongodb userId
         var box = req.body.postboxId
         var u = mongoose.Types.ObjectId(req.body.openedBy)
-        console.log(req.body)
-        console.log("wtf")
+        return res.status(200)
+        PostboxModel.findOne({postboxId: box}).exec(function (err, postbox) {
+            if (err) {
+                return res.status(500).json({
+                    message: 'Error when getting postbox.',
+                    error: err
+                });
+            }
+            if (!postbox) {
+                return res.status(404).json({
+                    message: 'No such postbox'
+                });
+            }
+            if(u == postbox.ownerId){       //Se avtomatsko odobri
+                return res.json(postbox);
+            } else {                                        //Preveri med dostopne žetone, če uporabnik ima dovoljenje za paketnik
+                TokenModel.find({postboxId: box}, function(err, tokens) {
+                    if (err) {
+                        return res.status(500).json({
+                            message: 'Error when getting access tokens.',
+                            error: err
+                        });
+                    }
+        
+                    if (tokens.length==0) {
+                        return res.status(403).json({
+                            message: 'You do not have access to this postbox.'
+                        });
+                    }
+                    tokens.forEach( el => {
+                        if(u == el.userId){
+                            console.log("test inside")
+                            if(el.dateExpiry<Date.now()){
+                                return res.status(403).json({message: 'Your access token for this box has expired.'});
+                            } else {
+                                return res.json(postbox);
+                            }
+                        }
+                        console.log("test outside")
+                        if(tokens.indexOf(el)==tokens.length-1){
+                            console.log("test last element")
+                            return res.status(403).json({
+                                message: 'You do not have access to this postbox.'
+                            });
+                        }
+                    });
+                });
+            }
+        });
     },
 
     /**
