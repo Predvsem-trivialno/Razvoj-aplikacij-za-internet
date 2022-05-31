@@ -157,6 +157,8 @@ module.exports = {
     },
 
     mobileLoginFace: function(req, res){
+        var imgPath = "/images/"+req.file.filename
+        console.log(imgPath)
         var scriptPath = path.resolve('./public/python/login.py');
         const pyLogin = spawn('python',[scriptPath,req.session.userName]);
         pyLogin.stderr.pipe(process.stderr);
@@ -166,6 +168,9 @@ module.exports = {
     },
 
     mobileRegisterFace: function(req, res){
+        for(i in req.file){
+            console.log(i.filename);
+        }
         var scriptPath = path.resolve('./public/python/register.py');
         const pyRegister = spawn('python',[scriptPath,req.session.userName]);
         pyRegister.stderr.pipe(process.stderr);

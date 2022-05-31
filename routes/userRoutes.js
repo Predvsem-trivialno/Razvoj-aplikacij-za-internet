@@ -2,6 +2,9 @@ var express = require('express');
 var router = express.Router();
 var userController = require('../controllers/userController.js');
 
+var multer = require('multer');
+var upload = multer({dest: 'public/images/'});
+
 /*
  * GET
  */
@@ -20,8 +23,8 @@ router.get('/mobileLoginFace', userController.mobileLoginFace);
 router.post('/', userController.create);
 router.post('/login', userController.login);
 router.post('/mobileLogin', userController.mobileLogin);
-router.post('/mobileRegisterFace', userController.mobileRegisterFace);
-router.post('/mobileLoginFace', userController.mobileLoginFace);
+router.post('/mobileRegisterFace', upload.array('registerImgs',10), userController.mobileRegisterFace);
+router.post('/mobileLoginFace', upload.single('loginImg'), userController.mobileLoginFace);
 router.post('/support', userController.sendEmail);
 
 /*
