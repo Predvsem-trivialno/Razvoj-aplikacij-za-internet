@@ -132,7 +132,7 @@ module.exports = {
 
     open: function (req, res) {                     //takes postboxId as the postbox number, user is mongodb userId
         var box = req.body.postboxId
-        var u = req.body.openedBy
+        var u = mongoose.Types.ObjectId(req.body.openedBy)
         var accesslog = new AccesslogModel({
 			postboxId : box,
 			dateOpened : Date.now(),
@@ -151,9 +151,6 @@ module.exports = {
                     message: 'No such postbox'
                 });
             }
-            console.log(u==postbox.ownerId)
-            console.log(typeof(u))
-            console.log(typeof(postbox.ownerId))
             if(u == postbox.ownerId){       //Se avtomatsko odpre
                 accesslog.save(function (err, accesslog) {
                     if (err) {
