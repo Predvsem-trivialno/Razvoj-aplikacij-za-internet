@@ -150,6 +150,7 @@ module.exports = {
             console.log(typeof(postbox.ownerId))
             console.log(u)
             console.log(postbox.ownerId)
+            console.log(u == postbox.ownerId)
             if(u == postbox.ownerId){       //Se avtomatsko odobri
                 return res.json(postbox);
             } else {                                        //Preveri med dostopne žetone, če uporabnik ima dovoljenje za paketnik
