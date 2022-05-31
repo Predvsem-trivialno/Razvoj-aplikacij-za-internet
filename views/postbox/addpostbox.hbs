@@ -53,6 +53,8 @@
               <script>
                 var inputlat = document.getElementById("location");
                 var inputlng = document.getElementById("location2");
+                inputlat.value = 46.517;
+                inputlng.value = 15.687;
                 function onMapClick(e) {
                     inputlat.value = e.latlng.lat;
                     inputlng.value = e.latlng.lng;

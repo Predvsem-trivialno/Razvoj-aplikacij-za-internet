@@ -3,6 +3,7 @@ var AccesslogModel = require('../models/accesslogModel.js');
 var TokenModel = require('../models/tokenModel.js');
 
 const NodeGeocoder = require('node-geocoder');
+const mongoose = require('mongoose');
 
 const options = {
   provider: 'locationiq',
@@ -129,14 +130,16 @@ module.exports = {
         });
     },
 
-    open: function (req, res) {
+    open: function (req, res) {                     //takes postboxId as the postbox number, user is mongodb userId
+        var box = req.body.postboxId
+        var u = req.body.openedBy
         var accesslog = new AccesslogModel({
-			postboxId : req.body.postboxId,
+			postboxId : box,
 			dateOpened : Date.now(),
-			openedBy : mongoose.Types.ObjectId(req.body.userId),
+			openedBy : u,
 			success : req.body.success
         });
-        PostboxModel.findOne({_id: box}, function (err, postbox) {
+        PostboxModel.findOne({postboxId: box}).exec(function (err, postbox) {
             if (err) {
                 return res.status(500).json({
                     message: 'Error when getting postbox.',
@@ -148,7 +151,7 @@ module.exports = {
                     message: 'No such postbox'
                 });
             }
-            if(user == postbox.ownerId){       //Se avtomatsko odpre
+            if(u == postbox.ownerId){       //Se avtomatsko odpre
                 accesslog.save(function (err, accesslog) {
                     if (err) {
                         return res.status(500).json({
@@ -159,7 +162,7 @@ module.exports = {
                     return res.json(postbox);
                 });
             } else {                                        //Preveri med dostopne žetone, če uporabnik ima dovoljenje za paketnik
-                TokenModel.find({postboxId: postbox.postboxId}, function(err, tokens) {
+                TokenModel.find({postboxId: box}, function(err, tokens) {
                     if (err) {
                         return res.status(500).json({
                             message: 'Error when getting access tokens.',
