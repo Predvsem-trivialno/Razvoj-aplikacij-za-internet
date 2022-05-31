@@ -133,7 +133,6 @@ module.exports = {
     open: function (req, res) {                     //takes postboxId as the postbox number, user is mongodb userId
         var box = req.body.postboxId
         var u = mongoose.Types.ObjectId(req.body.openedBy)
-        console.log(req.body)
         PostboxModel.findOne({postboxId: box}).exec(function (err, postbox) {
             if (err) {
                 return res.status(500).json({
@@ -146,11 +145,6 @@ module.exports = {
                     message: 'No such postbox'
                 });
             }
-            console.log(typeof(u))
-            console.log(typeof(postbox.ownerId))
-            console.log(u)
-            console.log(postbox.ownerId)
-            console.log(u.equals(postbox.ownerId))
             if(u.equals(postbox.ownerId)){       //Se avtomatsko odobri
                 return res.json(postbox);
             } else {                                        //Preveri med dostopne žetone, če uporabnik ima dovoljenje za paketnik
@@ -169,16 +163,13 @@ module.exports = {
                     }
                     tokens.forEach( el => {
                         if(u.equals(el.userId)){
-                            console.log("test inside")
                             if(el.dateExpiry<Date.now()){
                                 return res.status(403).json({message: 'Your access token for this box has expired.'});
                             } else {
                                 return res.json(postbox);
                             }
                         }
-                        console.log("test outside")
                         if(tokens.indexOf(el)==tokens.length-1){
-                            console.log("test last element")
                             return res.status(403).json({
                                 message: 'You do not have access to this postbox.'
                             });
