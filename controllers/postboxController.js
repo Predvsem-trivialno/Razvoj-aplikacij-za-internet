@@ -150,8 +150,8 @@ module.exports = {
             console.log(typeof(postbox.ownerId))
             console.log(u)
             console.log(postbox.ownerId)
-            console.log(u == postbox.ownerId)
-            if(u == postbox.ownerId){       //Se avtomatsko odobri
+            console.log(u.equals(postbox.ownerId))
+            if(u.equals(postbox.ownerId)){       //Se avtomatsko odobri
                 return res.json(postbox);
             } else {                                        //Preveri med dostopne žetone, če uporabnik ima dovoljenje za paketnik
                 TokenModel.find({postboxId: box}, function(err, tokens) {
@@ -168,7 +168,7 @@ module.exports = {
                         });
                     }
                     tokens.forEach( el => {
-                        if(u == el.userId){
+                        if(u.equals(el.userId)){
                             console.log("test inside")
                             if(el.dateExpiry<Date.now()){
                                 return res.status(403).json({message: 'Your access token for this box has expired.'});
