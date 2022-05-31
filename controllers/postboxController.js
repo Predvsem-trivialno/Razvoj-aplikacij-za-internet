@@ -170,7 +170,7 @@ module.exports = {
                         });
                     }
         
-                    if (length(tokens)==0) {
+                    if (tokens.length==0) {
                         return res.status(403).json({
                             message: 'You do not have access to this postbox.'
                         });
