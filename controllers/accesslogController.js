@@ -26,7 +26,6 @@ module.exports = {
     },
 
     mobileLogList: function (req, res) {
-        data = [];
         AccesslogModel.find({postboxId: req.body.boxId}).populate('openedBy').exec(function (err, accesslogs) {
             if (err) {
                 return res.status(500).json({
@@ -34,8 +33,7 @@ module.exports = {
                     error: err
                 });
             }
-            data.accesslogs = accesslogs;
-            return res.json(data);
+            return res.json(accesslogs);
         });
     },
     /**
