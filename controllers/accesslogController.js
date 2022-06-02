@@ -25,6 +25,19 @@ module.exports = {
         });
     },
 
+    mobileLogList: function (req, res) {
+        data = [];
+        AccesslogModel.find({postboxId: req.body.boxId}).populate('openedBy').exec(function (err, accesslogs) {
+            if (err) {
+                return res.status(500).json({
+                    message: 'Error when getting accesslog.',
+                    error: err
+                });
+            }
+            data.accesslogs = accesslogs;
+            return res.json(data);
+        });
+    },
     /**
      * accesslogController.create()
      */
