@@ -11,6 +11,7 @@ router.get('/:id', accesslogController.list);
  * POST
  */
 router.post('/', accesslogController.create);
+router.post('/mobile', accesslogController.mobileLogList)
 
 /*
  * DELETE
