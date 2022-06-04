@@ -1,5 +1,6 @@
 import cv2
 import numpy as np
+import base64
 
 from sklearn.neural_network import MLPClassifier
 
@@ -143,7 +144,7 @@ class facerecognition:
         return cropped
 
     def decodeString(encoded_data):
-        nparr = np.fromstring(encoded_data.decode('base64'), np.uint8)
+        nparr = np.fromstring(base64.b64decode(encoded_data), np.uint8)
         img = cv2.imdecode(nparr, cv2.IMREAD_ANYCOLOR)
         return img
 
