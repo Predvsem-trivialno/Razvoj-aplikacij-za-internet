@@ -4,3 +4,4 @@ numpy
 opencv_python
 scikit_learn
 numba
+os
