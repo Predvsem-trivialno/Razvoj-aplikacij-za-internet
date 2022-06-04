@@ -1,0 +1,8 @@
+imutils
+keras
+numpy
+opencv_python
+scikit_learn
+tensorflow==2.8.0
+protobuf==3.20.0
+numba
