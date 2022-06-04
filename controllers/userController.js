@@ -161,11 +161,6 @@ module.exports = {
         var img = req.body.faceImage
         var scriptPath = path.resolve('./public/python/login.py');
 		if(img){
-			try{
-				fs.writeFileSync("python/Images/loginAttempt.jpg", img, "base64");
-			} catch(e){
-				return res.sendStatus(500);
-			}
             const pyLogin = spawn('python',[scriptPath,img]);
             pyLogin.stderr.pipe(process.stderr);
             pyLogin.stdout.on('data',function(data){

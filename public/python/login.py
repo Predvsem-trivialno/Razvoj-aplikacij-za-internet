@@ -1,7 +1,5 @@
 import os, sys
 import pickle
-
-import cv2
 from facerecognitionutility import facerecognition as fr
 from sklearn.metrics import confusion_matrix
 
@@ -15,10 +13,9 @@ def fileToObj(dir):
 
 dirname = os.path.dirname(os.path.abspath(__file__))
 modelsFolder = os.path.join(dirname,'Models')
-imagesFolder = os.path.join(dirname,'Images')
 
 mlp = fileToObj(modelsFolder+"/model.pickle")
-img = cv2.imread("imageAttempt.jpg")
+img = fr.decodeString(sys.argv[0])
 img = fr.getFace(img)
 
 lbp_hog = []
