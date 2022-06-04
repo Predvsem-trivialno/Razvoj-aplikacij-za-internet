@@ -2,5 +2,6 @@ imutils
 keras
 numpy
 opencv_python
+opencv-python-headless==4.2.0.32
 scikit_learn
 numba
