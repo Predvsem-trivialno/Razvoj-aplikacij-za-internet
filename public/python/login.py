@@ -27,7 +27,7 @@ join = imgLbp+imgHog
 lbp_hog.append(join)
 
 prediction = mlp.predict_proba(lbp_hog)
-print("hello")
+print("hello",flush=True)
 
 index = 0
 max = 0
