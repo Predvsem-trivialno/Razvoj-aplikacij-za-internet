@@ -160,17 +160,26 @@ module.exports = {
     mobileLoginFace: function(req, res){
         var img = req.body.faceImage
         var scriptPath = path.resolve('./public/python/login.py');
-        const pyLogin = spawn('python',[scriptPath,img]);
-        pyLogin.stderr.pipe(process.stderr);
-        pyLogin.stdout.on('data',function(data){
-            if(data.toString()=="unknown"){
-                return res.status(404).json({
-                    message: 'User not found.'
-                });
-            } else {
-                return res.json(data.toString())
-            }
-        });
+		if(img){
+			try{
+				fs.writeFileSync("python/Images/loginAttempt.jpg", img, "base64");
+			} catch(e){
+				return res.sendStatus(500);
+			}
+            const pyLogin = spawn('python',[scriptPath,img]);
+            pyLogin.stderr.pipe(process.stderr);
+            pyLogin.stdout.on('data',function(data){
+                if(data.toString()=="unknown"){
+                    return res.status(404).json({
+                        message: 'User not found.'
+                    });
+                } else {
+                    return res.json(data.toString())
+                }
+            });
+        } else {
+            return res.sendStatus(403);
+        }
     },
 
     mobileRegisterFace: function(req, res){
