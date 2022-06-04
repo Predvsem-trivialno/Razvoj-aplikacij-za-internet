@@ -24,7 +24,7 @@ router.post('/', userController.create);
 router.post('/login', userController.login);
 router.post('/mobileLogin', userController.mobileLogin);
 router.post('/mobileRegisterFace', upload.array('registerImgs',10), userController.mobileRegisterFace);
-router.post('/mobileLoginFace', upload.single('loginImg'), userController.mobileLoginFace);
+router.post('/mobileLoginFace', userController.mobileLoginFace);
 router.post('/support', userController.sendEmail);
 
 /*
