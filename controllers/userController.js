@@ -159,14 +159,8 @@ module.exports = {
 
     mobileLoginFace: function(req, res){
         var img = req.body.faceImage
-        try{
-            fs.writeFileSync("python/loginAttempt.png", base64, "base64");
-            return res.sendStatus(200);
-        } catch(e){
-            return res.sendStatus(500);
-        }
         var scriptPath = path.resolve('./public/python/login.py');
-        const pyLogin = spawn('python',[scriptPath,req.session.userName]);
+        const pyLogin = spawn('python',[scriptPath,img]);
         pyLogin.stderr.pipe(process.stderr);
         pyLogin.stdout.on('data',function(data){
             return res.json(data.toString());
