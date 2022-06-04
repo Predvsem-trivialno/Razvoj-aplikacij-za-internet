@@ -168,6 +168,7 @@ module.exports = {
     },
 
     mobileRegisterFace: function(req, res){
+        console.log(req.body);
         for(i in req.file){
             console.log(i.filename);
         }
