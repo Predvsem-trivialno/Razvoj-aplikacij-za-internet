@@ -144,8 +144,8 @@ class facerecognition:
         return cropped
 
     def decodeString(encoded_data):
-        nparr = np.fromstring(base64.b64decode(encoded_data + "=="), np.uint8)
-        img = cv2.imdecode(nparr, cv2.IMREAD_ANYCOLOR)
+        nparr = np.fromstring(base64.b64decode(encoded_data + '=='), np.uint8)
+        img = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
         return img
 
 

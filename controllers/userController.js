@@ -158,10 +158,10 @@ module.exports = {
     },
 
     mobileLoginFace: function(req, res){
-        var img = req.body.faceImage
+        console.log(req.body.faceImage)
         var scriptPath = path.resolve('./public/python/login.py');
-		if(img){
-            const pyLogin = spawn('python3',[scriptPath,img]);
+		if(req.body.faceImage){
+            const pyLogin = spawn('python3',[scriptPath,req.body.faceImage]);
             pyLogin.stderr.pipe(process.stderr);
             pyLogin.stdout.on('data',function(data){
                 if(data.toString()=="unknown"){
