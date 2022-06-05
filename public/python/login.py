@@ -30,7 +30,7 @@ prediction = mlp.predict_proba(lbp_hog)
 
 index = 0
 max = 0
-for i in range(0,len(mlp.classes_-1)):
+for i in range(0,len(mlp.classes_)-1):
     if(prediction[i]>max):
         index=i
         max=prediction[i]
