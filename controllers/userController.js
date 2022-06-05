@@ -158,19 +158,19 @@ module.exports = {
     },
 
     mobileLoginFace: function(req, res){
-        console.log(req.body.faceImage)
         var scriptPath = path.resolve('./public/python/login.py');
 		if(req.body.faceImage){
             const pyLogin = spawn('python3',[scriptPath,req.body.faceImage]);
             pyLogin.stderr.pipe(process.stderr);
             pyLogin.stdout.on('data',function(data){
-                console.log(data.toString())
-                if(data.toString()=="unknown"){
+                var uname = data.toString()
+                console.log("User is: " + uname + "!")
+                if(uname=="unknown"){
                     return res.status(404).json({
                         message: 'User not found.'
                     });
                 } else {
-                    UserModel.findOne({username: data.toString()}, function (err, user) {
+                    UserModel.findOne({username: uname}, function (err, user) {
                         if (err) {
                             return res.status(500).json({
                                 message: 'Error when getting user.',
