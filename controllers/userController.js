@@ -161,7 +161,7 @@ module.exports = {
         var img = req.body.faceImage
         var scriptPath = path.resolve('./public/python/login.py');
 		if(img){
-            const pyLogin = spawn('python3',[scriptPath,"hello mother"]);
+            const pyLogin = spawn('python3',[scriptPath,img]);
             pyLogin.stderr.pipe(process.stderr);
             pyLogin.stdout.on('data',function(data){
                 if(data.toString()=="unknown"){
