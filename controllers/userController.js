@@ -164,7 +164,7 @@ module.exports = {
             pyLogin.stderr.pipe(process.stderr);
             pyLogin.stdout.on('data',function(data){
                 var uname = data.toString()
-                console.log("User is: " + uname + "!")
+                console.log("Recognized user: " + uname + "!")
                 if(uname=="unknown"){
                     return res.status(404).json({
                         message: 'User not found.'

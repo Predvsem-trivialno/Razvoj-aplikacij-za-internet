@@ -36,6 +36,6 @@ for i in range(0,len(mlp.classes_)-1):
         index=i
         max=prediction[0][i]
 if(max*100>60):
-    print(mlp.classes_[index],flush=True)
+    print(mlp.classes_[index],end='',flush=True)
 else:
-    print("unknown",flush=True)
+    print("unknown",end='',flush=True)
