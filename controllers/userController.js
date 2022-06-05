@@ -169,7 +169,22 @@ module.exports = {
                         message: 'User not found.'
                     });
                 } else {
-                    return res.json(data.toString())
+                    UserModel.findOne({username: data.toString()}, function (err, user) {
+                        if (err) {
+                            return res.status(500).json({
+                                message: 'Error when getting user.',
+                                error: err
+                            });
+                        }
+            
+                        if (!user) {
+                            return res.status(404).json({
+                                message: 'No such user'
+                            });
+                        }
+            
+                        return res.json(user);
+                    });
                 }
             });
         } else {
