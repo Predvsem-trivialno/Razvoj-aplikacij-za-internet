@@ -29,11 +29,12 @@ lbp_hog.append(join)
 prediction = mlp.predict_proba(lbp_hog)
 
 index = 0
-max = 0
+max = 0.0
 for i in range(0,len(mlp.classes_)-1):
-    if(prediction[i]>max):
+    cur=prediction[0][i]
+    if(cur>max):
         index=i
-        max=prediction[i]
+        max=prediction[0][i]
 
 if(max>60):
     print(mlp.classes_[index],flush=True)
