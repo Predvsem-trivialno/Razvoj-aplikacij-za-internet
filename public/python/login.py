@@ -16,28 +16,26 @@ modelsFolder = os.path.join(dirname,'Models')
 
 mlp = fileToObj(modelsFolder+"/model.pickle")
 img = fr.decodeString(sys.argv[1])
-if(img):
-    img = fr.getFace(img)
-    lbp_hog = []
+img = fr.getFace(img)
 
-    gradients, directions = fr.sobel(img)
-    imgLbp = fr.lbp(img).tolist()
-    imgHog = fr.hog(img,8,12,2,gradients,directions)
-    join = imgLbp+imgHog
-    lbp_hog.append(join)
+lbp_hog = []
 
-    prediction = mlp.predict_proba(lbp_hog)
+gradients, directions = fr.sobel(img)
+imgLbp = fr.lbp(img).tolist()
+imgHog = fr.hog(img,8,12,2,gradients,directions)
+join = imgLbp+imgHog
+lbp_hog.append(join)
 
-    index = 0
-    max = 0
-    for i in range(0,len(mlp.classes_-1)):
-        if(prediction[i]>max):
-            index=i
-            max=prediction[i]
+prediction = mlp.predict_proba(lbp_hog)
 
-    if(max>60):
-        print(mlp.classes_[index],flush=True)
-    else:
-        print("unknown",flush=True)
+index = 0
+max = 0
+for i in range(0,len(mlp.classes_-1)):
+    if(prediction[i]>max):
+        index=i
+        max=prediction[i]
+
+if(max>60):
+    print(mlp.classes_[index],flush=True)
 else:
     print("unknown",flush=True)
