@@ -1,6 +1,7 @@
 import cv2
 import numpy as np
 import base64
+import os
 
 from sklearn.neural_network import MLPClassifier
 
@@ -109,8 +110,9 @@ class facerecognition:
         return output
 
     def detectFaces(imageData):
-        prototxt="deploy.prototxt.txt"
-        model="res10_300x300_ssd_iter_140000.caffemodel"
+        dirname = os.path.dirname(os.path.abspath(__file__))
+        prototxt=dirname+"/deploy.prototxt.txt"
+        model=dirname+"/res10_300x300_ssd_iter_140000.caffemodel"
         net = cv2.dnn.readNetFromCaffe(prototxt, model)
         (h, w) = imageData.shape[:2]
         blob = cv2.dnn.blobFromImage(cv2.resize(imageData, (300, 300)), 1.0, (300, 300), (104.0, 177.0, 123.0))
