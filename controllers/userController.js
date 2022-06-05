@@ -164,6 +164,7 @@ module.exports = {
             const pyLogin = spawn('python3',[scriptPath,req.body.faceImage]);
             pyLogin.stderr.pipe(process.stderr);
             pyLogin.stdout.on('data',function(data){
+                console.log(data.toString())
                 if(data.toString()=="unknown"){
                     return res.status(404).json({
                         message: 'User not found.'
